@@ -12,5 +12,5 @@ tsc -w
 
 Levantar Servidor
 ```
-(nodemon|node) dist/
+nodemon | node
 ```
