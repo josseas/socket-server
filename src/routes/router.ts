@@ -1,4 +1,5 @@
 import { Router, Request, Response } from 'express';
+import { Server } from '../server';
 
 export const router: Router = Router();
 
@@ -20,6 +21,10 @@ router.post
         const cuerpo = req.body.cuerpo;
         const de = req.body.de;
 
+        const server = Server.instance;
+        server.socketServer
+            .emit('MESSAGE_FOR_ALL', { de, cuerpo });
+
         res.json
         ({
             state: true, message: `cuerpo: ${cuerpo}, de: ${de}`
@@ -34,10 +39,12 @@ router.post
         const id = req.params.id;
         const cuerpo = req.body.cuerpo;
         const de = req.body.de;
+        
+        const server = Server.instance;
+        server.socketServer
+            .in(id)
+            .emit('MESSAGE_PRIVATE', { de, cuerpo });
 
-        res.json
-        ({
-            state: true, message: `para: ${id}, cuerpo: ${cuerpo}, de: ${de}`
-        });
+        res.json({ state: true, message: `para: ${id}, cuerpo: ${cuerpo}, de: ${de}` });
     }
 );

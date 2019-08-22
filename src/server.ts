@@ -12,6 +12,8 @@ export class Server
     public socketServer: SocketIO.Server;
     
     public port: number;
+    
+    private static _instance: Server;
 
     public constructor()
     {
@@ -24,17 +26,22 @@ export class Server
         this.ListeningSockets();
     }
 
+    public static get instance() : Server
+    {
+        return this._instance || (this._instance = new this());
+    }
+
     private ListeningSockets()
     {
-        console.log('Sockets escuchando...');
+        console.log('[Listening] SOCKETS');
 
         this.socketServer.on
         (
             'connection', client =>
             {
-                console.log('Nuevo cliente conectado...');
-
-                SocketManager.Mensaje(client, this.socketServer);
+                SocketManager.Conectar(client);
+                SocketManager.ConfigurarUsuario(client, this.socketServer);
+                // SocketManager.Mensaje(client, this.socketServer);
                 SocketManager.Desconectar(client);
             }
         );
