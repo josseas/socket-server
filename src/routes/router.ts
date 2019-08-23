@@ -1,5 +1,7 @@
 import { Router, Request, Response } from 'express';
+import { Socket } from 'socket.io';
 import { Server } from '../server';
+import { usuariosConectados } from '../sockets/socket';
 
 export const router: Router = Router();
 
@@ -46,5 +48,32 @@ router.post
             .emit('MESSAGE_PRIVATE', { de, cuerpo });
 
         res.json({ state: true, message: `para: ${id}, cuerpo: ${cuerpo}, de: ${de}` });
+    }
+);
+
+router.get
+(
+    '/usuarios', (req: Request, res: Response) =>
+    {
+        const server = Server.instance;
+        server.socketServer
+            .clients
+            (
+                (err: any, clients: Array<string>) =>
+                {
+                    if (err)
+                        return res.json({ status: false, err });                    
+
+                    res.json({ state: true, clients });
+                }
+            );
+    }
+);
+
+router.get
+(
+    '/usuarios/detalle', (req: Request, res: Response) =>
+    {
+        res.json({ state: true, clients: usuariosConectados.GetLista() });
     }
 );

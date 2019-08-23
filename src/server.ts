@@ -39,10 +39,11 @@ export class Server
         (
             'connection', client =>
             {
-                SocketManager.Conectar(client);
+                SocketManager.Conectar(client, this.socketServer);
                 SocketManager.ConfigurarUsuario(client, this.socketServer);
-                // SocketManager.Mensaje(client, this.socketServer);
-                SocketManager.Desconectar(client);
+                SocketManager.GetActiveUsers(client, this.socketServer);
+                SocketManager.Mensaje(client, this.socketServer);
+                SocketManager.Desconectar(client, this.socketServer);
             }
         );
     }
