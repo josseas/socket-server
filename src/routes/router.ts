@@ -2,8 +2,35 @@ import { Router, Request, Response } from 'express';
 import { Socket } from 'socket.io';
 import { Server } from '../server';
 import { usuariosConectados } from '../sockets/socket';
+import { Grafica } from '../models/grafica';
 
 export const router: Router = Router();
+export const grafica: Grafica = new Grafica();
+
+router.get
+(
+    '/grafica', (req: Request, res: Response) =>
+    {
+        res.json(grafica.GetData());
+    }
+);
+
+router.post
+(
+    '/grafica', (req: Request, res: Response) =>
+    {
+        const mes = req.body.mes;
+        const unidades = Number(req.body.unidades);
+
+        grafica.IncrementarValor(mes, unidades);
+
+        const server = Server.instance;
+        server.socketServer
+            .emit('UPDATE_CHART', grafica.GetData());
+
+        res.json(grafica.GetData());
+    }
+);
 
 router.get
 (

@@ -48,7 +48,7 @@ export abstract class SocketManager
             {
                 console.log('[payload] USUARIO ->', payload);
                 usuariosConectados.ActualizarNombre(client.id, payload.nombre);
-                console.log('-> Print Lista', usuariosConectados.GetLista());
+                
                 server.emit('USUARIOS_ACTIVOS', { usuarios: usuariosConectados.GetLista() });
 
                 callback({ status: true, message: `Usuario ${payload.nombre}, configurado...`});
