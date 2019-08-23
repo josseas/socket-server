@@ -5,12 +5,12 @@ Reconstruir modulos de Node
 npm install
 ```
 
-Transpilar Typescript
+Transpilar Typescript -> Javascript
 ```
 tsc -w
 ```
 
-Levantar Servidor
+Levantar Servidor Node
 ```
 nodemon | node
 ```
