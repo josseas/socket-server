@@ -1,6 +1,8 @@
 import { Socket, Server } from "socket.io";
 import { UsuariosLista } from "../models/usuarios-lista";
 import { Usuario } from "../models/usuario";
+import { Mapa } from "../models/mapa";
+import { mapa } from "../routes/router";
 
 export const usuariosConectados = new UsuariosLista();
 
@@ -34,7 +36,7 @@ export abstract class SocketManager
         (
             'NEW_MESSAGE', (payload: any) => 
             {
-                console.log('[payload] Message', payload);
+                // console.log('[payload] Message', payload);
                 server.emit('MESSAGE_FOR_ALL', payload);
             }
         );
@@ -46,7 +48,7 @@ export abstract class SocketManager
         (
             'CONFIGURAR-USUARIO', (payload: any, callback: Function) => 
             {
-                console.log('[payload] USUARIO ->', payload);
+                // console.log('[payload] USUARIO ->', payload);
                 usuariosConectados.ActualizarNombre(client.id, payload.nombre);
                 
                 server.emit('USUARIOS_ACTIVOS', { usuarios: usuariosConectados.GetLista() });
@@ -63,6 +65,42 @@ export abstract class SocketManager
             'GET_ACTIVE_USERS', (payload: any, callback: Function) => 
             {
                 server.emit('USUARIOS_ACTIVOS', { usuarios: usuariosConectados.GetLista() });
+            }
+        );
+    }
+
+    public static NuevoMarcador(client: Socket, server: Server) : void
+    {
+        client.on
+        (
+            'ADD_MARKER', (payload: any, callback: Function) => 
+            {
+                mapa.AddMarcador(payload);
+                server.emit('SEND_ADD_MARKER', payload);
+            }
+        );
+    }
+
+    public static RemoverMarcador(client: Socket, server: Server) : void
+    {
+        client.on
+        (
+            'REMOVE_MARKER', (payload: any, callback: Function) => 
+            {
+                mapa.RemoveMarcador(payload);
+                server.emit('SEND_REMOVE_MARKER', payload);
+            }
+        );
+    }
+
+    public static MoverMarcador(client: Socket, server: Server) : void
+    {
+        client.on
+        (
+            'MOVE_MARKER', (payload: any, callback: Function) => 
+            {
+                mapa.MoveMarcador(payload);
+                server.emit('SEND_MOVE_MARKER', payload);
             }
         );
     }

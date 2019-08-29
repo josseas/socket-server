@@ -1,7 +1,7 @@
 export class Grafica
 {
-    private meses: Array<string> = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio'];
-    private valores: Array<number> = [0, 0, 0, 0, 0, 0, 0];
+    private meses: Array<string> = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
+    private valores: Array<number> = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
     public constructor()
     {

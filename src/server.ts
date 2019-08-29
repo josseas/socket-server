@@ -43,6 +43,9 @@ export class Server
                 SocketManager.ConfigurarUsuario(client, this.socketServer);
                 SocketManager.GetActiveUsers(client, this.socketServer);
                 SocketManager.Mensaje(client, this.socketServer);
+                SocketManager.NuevoMarcador(client, this.socketServer);
+                SocketManager.RemoverMarcador(client, this.socketServer);
+                SocketManager.MoverMarcador(client, this.socketServer);
                 SocketManager.Desconectar(client, this.socketServer);
             }
         );

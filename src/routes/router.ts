@@ -1,11 +1,64 @@
 import { Router, Request, Response } from 'express';
-import { Socket } from 'socket.io';
 import { Server } from '../server';
 import { usuariosConectados } from '../sockets/socket';
 import { Grafica } from '../models/grafica';
+import { Encuesta } from '../models/encuesta';
+import { Mapa } from '../models/mapa';
 
 export const router: Router = Router();
 export const grafica: Grafica = new Grafica();
+export const encuesta: Encuesta = new Encuesta();
+export const mapa: Mapa = new Mapa();
+
+router.get
+(
+    '/mapa', (req: Request, res: Response) =>
+    {
+        res.json(mapa.GetMarcadores());
+    }
+);
+
+router.post
+(
+    '/mapa', (req: Request, res: Response) =>
+    {
+        const alternativa = Number(req.body.alternativa);
+        const sexo = req.body.sexo;
+
+        encuesta.ResponderEncuesta(alternativa, sexo);
+
+        const server = Server.instance;
+        server.socketServer
+            .emit('UPDATE_SURVEY', encuesta.GetData());
+
+        res.json(encuesta.GetData());
+    }
+);
+
+router.get
+(
+    '/encuesta', (req: Request, res: Response) =>
+    {
+        res.json(encuesta.GetData());
+    }
+);
+
+router.post
+(
+    '/encuesta', (req: Request, res: Response) =>
+    {
+        const alternativa = Number(req.body.alternativa);
+        const sexo = req.body.sexo;
+
+        encuesta.ResponderEncuesta(alternativa, sexo);
+
+        const server = Server.instance;
+        server.socketServer
+            .emit('UPDATE_SURVEY', encuesta.GetData());
+
+        res.json(encuesta.GetData());
+    }
+);
 
 router.get
 (
@@ -19,10 +72,11 @@ router.post
 (
     '/grafica', (req: Request, res: Response) =>
     {
+        console.log('_____grafica', req.body);
         const mes = req.body.mes;
-        const unidades = Number(req.body.unidades);
+        const monto = Number(req.body.monto);
 
-        grafica.IncrementarValor(mes, unidades);
+        grafica.IncrementarValor(mes, monto);
 
         const server = Server.instance;
         server.socketServer

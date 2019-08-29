@@ -12,7 +12,6 @@ export class UsuariosLista
     public AddUsuario(usuario: Usuario) : void
     {
         this.lista.push(usuario);
-        console.log('-> Lista', this.lista);
     }
 
     public ActualizarNombre(id: string, nombre: string) : void
@@ -25,8 +24,6 @@ export class UsuariosLista
                     usuario.nombre = nombre;
             }
         );
-
-        console.log('-> Lista: ', this.lista);
     }
 
     public GetLista() : Array<Usuario>
@@ -49,8 +46,6 @@ export class UsuariosLista
         const usuario = this.GetUsuario(id);
 
         this.lista = this.lista.filter(usuario => usuario.id !== id);
-
-        console.log('-> Lista', this.lista);
 
         return usuario;
     }
