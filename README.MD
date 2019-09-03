@@ -14,7 +14,7 @@ Levantar Servidor Node
 ```
 nodemon | node
 ```
-Repositorio github del Frontend Angular [Angular](https://github.com/josseas/ng-socket)
+Repositorio github del Frontend [Angular](https://github.com/josseas/ng-socket)
 
 
 # HOME
