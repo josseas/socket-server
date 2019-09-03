@@ -49,6 +49,6 @@ Sincronización de marcadores en tiempo real, es posible realizar las siguientes
 
 # COLAS
 
-Ejemplo de colas en tiempo real, prxima actualizacion.
+Ejemplo de colas en tiempo real, proxima actualizacion.
 
 ![Colas](https://github.com/josseas/ng-socket/blob/master/src/assets/capturas/colas.jpg)
